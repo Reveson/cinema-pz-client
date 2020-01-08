@@ -1,0 +1,4 @@
+[submodule "cinema-pz-api"]
+	path = cinema-pz-api
+	url = https://github.com/Reveson/cinema-pz-api.git
+	branch = develop
