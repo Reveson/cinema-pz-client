@@ -1,5 +1,7 @@
 package com.example.cinema.cinemapz;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +19,10 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+    	PropertyService.initialize();
+        MovieClient movieClient = new MovieClient();
+        movieClient.getMovie(1);
         launch(args);
     }
 }
