@@ -6,10 +6,9 @@ import com.example.cinema.cinemapz.error.RestApiErrorAttributes;
 
 public class RestRequestException extends RuntimeException {
 
-	private static final ResourceBundle bundle = PropertyService.getResourceBundle();
-
-	RestRequestException(RestApiErrorAttributes errorAttributes) {
-		super(bundle.getString(PropertyService.mapErrorToProperty(errorAttributes.getMessage())));
-	}
+    RestRequestException(RestApiErrorAttributes errorAttributes) {
+        super(PropertyService
+                .getMessage(PropertyService.mapErrorToProperty(errorAttributes.getMessage())));
+    }
 
 }
