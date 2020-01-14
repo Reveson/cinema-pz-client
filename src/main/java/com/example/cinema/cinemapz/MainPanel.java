@@ -32,9 +32,6 @@ public class MainPanel extends JPanel {
     }
 
     private void initWindow() {
-        int width = Integer.parseInt(PropertyService.getProperty("app.default.width", "800"));
-        int height = Integer.parseInt(PropertyService.getProperty("app.default.height", "600"));
-        setPreferredSize(new Dimension(width, height));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 

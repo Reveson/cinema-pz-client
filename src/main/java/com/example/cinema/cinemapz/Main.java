@@ -1,5 +1,6 @@
 package com.example.cinema.cinemapz;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.IOException;
 
@@ -26,7 +27,11 @@ public class Main extends JFrame {
     }
 
     private void initGui() {
-        add(MainPanel.getInstance());
+//        add(MainPanel.getInstance());
+        add(MovieDetailsPanel.getInstance());
+        int width = Integer.parseInt(PropertyService.getProperty("app.default.width", "800"));
+        int height = Integer.parseInt(PropertyService.getProperty("app.default.height", "600"));
+        setPreferredSize(new Dimension(width, height));
         setResizable(true);
         setFocusable(true);
         setTitle("Cinema PZ");
