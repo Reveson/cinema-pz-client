@@ -44,10 +44,14 @@ public class PropertyService { //TODO singleton
     }
 
     public static String getProperty(String key) {
-		if (properties == null) {
-			throw new IllegalStateException("Properties file not yet initialized!");
-		}
-        return properties.getProperty(key);
+        return getProperty(key, null);
+    }
+
+    public static String getProperty(String key, String defaultValue) {
+        if (properties == null) {
+            throw new IllegalStateException("Properties file not yet initialized!");
+        }
+        return properties.getProperty(key, defaultValue);
     }
 
     public static String getMessage(String property) {
