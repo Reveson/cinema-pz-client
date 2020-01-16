@@ -1,4 +1,4 @@
-package com.example.cinema.cinemapz;
+package com.example.cinema.cinemapz.panel;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -8,7 +8,6 @@ import java.awt.Insets;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;

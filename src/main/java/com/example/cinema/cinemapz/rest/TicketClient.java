@@ -1,4 +1,4 @@
-package com.example.cinema.cinemapz;
+package com.example.cinema.cinemapz.rest;
 
 import com.example.cinema.cinemapz.dto.SeatDto;
 

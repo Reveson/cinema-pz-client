@@ -1,6 +1,5 @@
-package com.example.cinema.cinemapz;
+package com.example.cinema.cinemapz.panel;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
@@ -8,6 +7,8 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.example.cinema.cinemapz.component.MovieTile;
 
 public class MainPanel extends JPanel {
 

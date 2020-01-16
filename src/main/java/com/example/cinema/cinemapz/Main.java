@@ -4,13 +4,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.IOException;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javax.swing.JFrame;
-import org.apache.log4j.Logger;
+
+import com.example.cinema.cinemapz.panel.MovieDetailsPanel;
+import com.example.cinema.cinemapz.panel.ProjectionsPanel;
 
 public class Main extends JFrame {
 
@@ -28,7 +25,8 @@ public class Main extends JFrame {
 
     private void initGui() {
 //        add(MainPanel.getInstance());
-        add(MovieDetailsPanel.getInstance());
+//        add(MovieDetailsPanel.getInstance());
+        add(ProjectionsPanel.getInstance());
         int width = Integer.parseInt(PropertyService.getProperty("app.default.width", "800"));
         int height = Integer.parseInt(PropertyService.getProperty("app.default.height", "600"));
         setPreferredSize(new Dimension(width, height));

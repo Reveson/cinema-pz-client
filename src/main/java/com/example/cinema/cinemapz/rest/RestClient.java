@@ -1,23 +1,21 @@
-package com.example.cinema.cinemapz;
+package com.example.cinema.cinemapz.rest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.example.cinema.cinemapz.dto.SimpleMovie;
-import com.sun.xml.internal.bind.v2.model.core.Ref;
+import com.example.cinema.cinemapz.PropertyService;
+import com.example.cinema.cinemapz.exception.RestRequestException;
+
 import org.apache.log4j.Logger;
 
 import com.example.cinema.cinemapz.error.RestApiErrorAttributes;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public abstract class RestClient {
 

@@ -1,4 +1,4 @@
-package com.example.cinema.cinemapz;
+package com.example.cinema.cinemapz.component;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -31,9 +31,9 @@ public class MovieTile extends JComponent {
             e.printStackTrace();
         }
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(this.image);
-        this.add(this.title);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(this.image);
+        add(this.title);
     }
 
 }
