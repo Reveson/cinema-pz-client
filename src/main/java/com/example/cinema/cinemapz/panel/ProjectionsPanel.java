@@ -12,22 +12,13 @@ import java.util.stream.Collectors;
 
 import javax.swing.*;
 
+import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.dto.ProjectionIdWithEpoch;
 import com.example.cinema.cinemapz.utils.Constants;
 
 public class ProjectionsPanel extends JPanel {
 
-	private static ProjectionsPanel instance;
-
-	public static ProjectionsPanel getInstance() {
-
-		if (instance == null) {
-			instance = new ProjectionsPanel();
-		}
-		return instance;
-	}
-
-	private ProjectionsPanel() {
+	public ProjectionsPanel() {
 		initWindow();
 		initContent();
 	}
@@ -54,6 +45,10 @@ public class ProjectionsPanel extends JPanel {
 		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(backButton, gbc);
+
+		backButton.addActionListener((event) -> {
+			Main.setPanel(Main.Frame.MAIN);
+		});
 
 		gbc.gridx = 0;
 		gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -134,8 +129,9 @@ public class ProjectionsPanel extends JPanel {
 
 	private void addButton(String timeStringified, int projectionId, GridBagConstraints gbc) {
 		JButton buttonToAdd = new JButton(timeStringified);
-		//TODO action listener for rest
-		//		buttonsWithTime.add(buttonToAdd);
+		buttonToAdd.addActionListener((event) -> {
+			Main.setPanel(Main.Frame.SEATS);
+		});
 		gbc.gridx += 1;
 		add(buttonToAdd, gbc);
 	}

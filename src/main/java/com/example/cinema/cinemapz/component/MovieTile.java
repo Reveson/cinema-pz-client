@@ -2,17 +2,18 @@ package com.example.cinema.cinemapz.component;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
-public class MovieTile extends JComponent {
+import com.example.cinema.cinemapz.Main;
+
+//public class MovieTile extends JComponent implements ActionListener {
+public class MovieTile extends JButton {
 
     private JLabel title;
     private JLabel image;
@@ -34,6 +35,14 @@ public class MovieTile extends JComponent {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(this.image);
         add(this.title);
+
+        setOpaque(false);
+        setContentAreaFilled(false);
+        setBorderPainted(false);
+
+        addActionListener((event) -> { //TODO
+            Main.setPanel(Main.Frame.DETAILS);
+        });
     }
 
 }

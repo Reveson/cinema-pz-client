@@ -14,19 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.example.cinema.cinemapz.Main;
+
 public class MovieDetailsPanel extends JPanel {
 
-    private static MovieDetailsPanel instance;
-
-    public static MovieDetailsPanel getInstance() {
-
-        if (instance == null) {
-            instance = new MovieDetailsPanel();
-        }
-        return instance;
-    }
-
-    private MovieDetailsPanel() {
+    public MovieDetailsPanel() {
         initWindow();
         initElements();
     }
@@ -53,6 +45,10 @@ public class MovieDetailsPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.NORTHEAST;
         add(backButton, gbc);
+
+        backButton.addActionListener((event) -> {
+            Main.setPanel(Main.Frame.MAIN);
+        });
 
         JLabel imageLabel = getImage();
         gbc.gridx = 0;
@@ -121,6 +117,10 @@ public class MovieDetailsPanel extends JPanel {
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.SOUTHWEST;
         add(nextButton, gbc);
+
+        nextButton.addActionListener((event) -> {
+            Main.setPanel(Main.Frame.PROJECTIONS);
+        });
 
     }
 

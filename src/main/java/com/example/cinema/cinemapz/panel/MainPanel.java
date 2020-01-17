@@ -1,35 +1,20 @@
 package com.example.cinema.cinemapz.panel;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.*;
+
+import javax.swing.*;
 
 import com.example.cinema.cinemapz.component.MovieTile;
 
 public class MainPanel extends JPanel {
 
-    private static MainPanel instance;
     private JComponent categorySelectionComponent = new JComponent() {};
     private JComponent movieListComponent = new JComponent() {};
 
-
-    public static MainPanel getInstance() {
-
-        if (instance == null) {
-            instance = new MainPanel();
-        }
-        return instance;
-    }
-
-    private MainPanel() {
+    public MainPanel() {
         initWindow();
         initTopPanel();
         initMoviePanel();
-//        initMovieList();
     }
 
     private void initWindow() {
@@ -67,12 +52,15 @@ public class MainPanel extends JPanel {
         }
 
         add(movieListComponent);
-
     }
 
     private MovieTile getMovieTitle() {
         String title = "The hobbit: lorem ipsum";
         String url = "https://images-na.ssl-images-amazon.com/images/I/51D8AEqiZ-L.jpg";
-        return new MovieTile(title, url);
+        MovieTile tile = new MovieTile(title, url);
+        tile.addActionListener((event) -> {
+            System.out.println("works");
+        });
+        return tile;
     }
 }

@@ -7,21 +7,13 @@ import java.util.List;
 
 import javax.swing.*;
 
+import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.component.SeatsTile;
 import com.example.cinema.cinemapz.dto.SeatDto;
 
 public class TicketPanel extends JPanel {
-	private static TicketPanel instance;
 
-	public static TicketPanel getInstance() {
-
-		if (instance == null) {
-			instance = new TicketPanel();
-		}
-		return instance;
-	}
-
-	private TicketPanel() {
+	public TicketPanel() {
 		initWindow();
 		initSeatsTile();
 	}
@@ -46,6 +38,9 @@ public class TicketPanel extends JPanel {
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(backButton, gbc);
 
+		backButton.addActionListener((event) -> { //TODO cache
+			Main.setPanel(Main.Frame.PROJECTIONS);
+		});
 
 		SeatsTile seatsTile = new SeatsTile(tmp, mock());
 		gbc.gridx = 0;

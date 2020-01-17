@@ -1,21 +1,37 @@
 package com.example.cinema.cinemapz.component;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
 import com.example.cinema.cinemapz.dto.SeatDto;
 
-public class JSeat extends JPanel {
+public class JSeat extends JCheckBox {
 
 	private Status status;
 	private int seatId;
 	private String name;
-	private static final Color occupiedColor = Color.RED;
-	private static final Color freeColor = Color.GREEN;
-	private static final Color selectedColor = Color.YELLOW;
 	private static final int EXPECTED_WIDTH = 30;
 	private static final int EXPECTED_HEIGHT = EXPECTED_WIDTH;
+
+	private static final ImageIcon freeImage;
+	private static final ImageIcon occupiedImage;
+	private static final ImageIcon selectedImage;
+
+	static {
+		freeImage = createImage(Color.GREEN);
+		occupiedImage = createImage(Color.RED);
+		selectedImage = createImage(Color.YELLOW);
+	}
+
+	private static ImageIcon createImage(Color color) {
+		BufferedImage returnImage = new BufferedImage(EXPECTED_WIDTH, EXPECTED_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		Graphics2D graphics = returnImage.createGraphics();
+		graphics.setPaint(color);
+		graphics.fillRect(0, 0, returnImage.getWidth(), returnImage.getHeight());
+		return new ImageIcon(returnImage);
+	}
 
 	public JSeat(SeatDto seatDto) {
 		Status status;
@@ -29,26 +45,35 @@ public class JSeat extends JPanel {
 			status = Status.NOT_EXISTS;
 		}
 
-		setStatus(status);
+		initializeWithStatus(status);
 
 		setPreferredSize(new Dimension(EXPECTED_WIDTH, EXPECTED_HEIGHT));
+
 	}
 
-	public void setStatus(Status status) {
+	private void initializeWithStatus(Status status) {
+
 		switch (status) {
-			case OCCUPIED:
-				setBackground(occupiedColor);
-				break;
-			case SELECTED:
-				setBackground(selectedColor);
-				break;
+			case SELECTED: //intentionally empty
 			case FREE:
-				setBackground(freeColor);
+				setIcon(freeImage);
+				setSelectedIcon(selectedImage);
+				break;
+			case OCCUPIED:
+				setSelected(true);
+				setEnabled(false);
+				setDisabledSelectedIcon(occupiedImage);
+				setIcon(occupiedImage);
 				break;
 			case NOT_EXISTS:
+				setEnabled(false);
 				setVisible(false);
 				break;
 		}
+		setStatus(status);
+	}
+
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
