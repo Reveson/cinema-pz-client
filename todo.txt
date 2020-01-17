@@ -1,0 +1,5 @@
+-connect with BO over rest
+-create cache mechanism
+-create listener for ticket book
+-create exception handling
+-make it look nicer
