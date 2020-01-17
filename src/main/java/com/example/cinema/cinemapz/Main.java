@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import com.example.cinema.cinemapz.panel.MovieDetailsPanel;
 import com.example.cinema.cinemapz.panel.ProjectionsPanel;
+import com.example.cinema.cinemapz.panel.TicketPanel;
 
 public class Main extends JFrame {
 
@@ -26,7 +27,8 @@ public class Main extends JFrame {
     private void initGui() {
 //        add(MainPanel.getInstance());
 //        add(MovieDetailsPanel.getInstance());
-        add(ProjectionsPanel.getInstance());
+//        add(ProjectionsPanel.getInstance());
+        add(TicketPanel.getInstance());
         int width = Integer.parseInt(PropertyService.getProperty("app.default.width", "800"));
         int height = Integer.parseInt(PropertyService.getProperty("app.default.height", "600"));
         setPreferredSize(new Dimension(width, height));
