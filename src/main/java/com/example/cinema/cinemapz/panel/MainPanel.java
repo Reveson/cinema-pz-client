@@ -1,18 +1,22 @@
 package com.example.cinema.cinemapz.panel;
 
 import com.example.cinema.cinemapz.Main;
+import com.example.cinema.cinemapz.Main.Frame;
 import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.dto.MovieCategoryDto;
+import com.example.cinema.cinemapz.dto.RestFields;
 import com.example.cinema.cinemapz.dto.SimpleMovie;
 import com.example.cinema.cinemapz.rest.MovieClient;
 
 import com.example.cinema.cinemapz.utils.Constants;
+import com.example.cinema.cinemapz.utils.LanguageComboObject;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
 import com.example.cinema.cinemapz.component.MovieTile;
+import java.util.Locale;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -39,13 +43,18 @@ public class MainPanel extends AbstractPanel {
 //        categorySelectionComponent.setLayout(new BoxLayout(categorySelectionComponent, BoxLayout.X_AXIS));
         categorySelectionComponent.setLayout(new FlowLayout());
 
-        JLabel categoryLabel = new JLabel(PropertyService.getMessage("main.panel.category_label"));
+        JLabel categoryLabel = new JLabel(PropertyService.getMessage("main.panel.category"));
         categorySelectionComponent.add(categoryLabel);
 
         JComboBox<MovieCategoryDto> categoryCombo = getCategoryDropdownList();
         categorySelectionComponent.add(categoryCombo);
 
-//        categorySelectionComponent.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        JLabel languageLabel = new JLabel(PropertyService.getMessage("main.panel.language"));
+        categorySelectionComponent.add(languageLabel);
+
+        JComboBox<LanguageComboObject> languageCombo = getLanguageDropdownList();
+        categorySelectionComponent.add(languageCombo);
+
 
         add(categorySelectionComponent);
     }
@@ -78,6 +87,18 @@ public class MainPanel extends AbstractPanel {
         return categoryCombo;
     }
 
+    private  JComboBox<LanguageComboObject> getLanguageDropdownList() {
+        JComboBox<LanguageComboObject> languageCombo = new JComboBox<>();
+        languageCombo.addItem(new LanguageComboObject(
+                PropertyService.getMessage("main.panel.language.pl"), RestFields.LANG_PL)
+        );
+        languageCombo.addItem(new LanguageComboObject(
+                PropertyService.getMessage("main.panel.language.en"), RestFields.LANG_EN)
+        );
+        languageCombo.addActionListener(this::languageDropdownListener);
+        return languageCombo;
+    }
+
     @SuppressWarnings("unchecked")
     private void categoryDropdownListener(ActionEvent actionEvent) {
         JComboBox<MovieCategoryDto> comboBox = (JComboBox<MovieCategoryDto>) actionEvent.getSource();
@@ -87,6 +108,15 @@ public class MainPanel extends AbstractPanel {
             initMoviePanel(getMovies(((MovieCategoryDto) comboBox.getSelectedItem()).getId()));
         movieListComponent.revalidate();
         movieListComponent.repaint();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void languageDropdownListener(ActionEvent actionEvent) {
+        JComboBox<LanguageComboObject> comboBox = (JComboBox<LanguageComboObject>) actionEvent.getSource();
+        String shortLocale = ((LanguageComboObject) comboBox.getSelectedItem()).getShortName();
+        Locale locale = Locale.forLanguageTag(shortLocale.toLowerCase()+"-"+shortLocale.toUpperCase());
+        PropertyService.setLocale(locale);
+        Main.setPanel(Frame.MAIN);
     }
 
 
@@ -104,9 +134,9 @@ public class MainPanel extends AbstractPanel {
 
     private MovieTile getMovieTitle(SimpleMovie simpleMovie) {
         String title = simpleMovie.getName();
-        String url = "https://images-na.ssl-images-amazon.com/images/I/51D8AEqiZ-L.jpg"; //TODO
+        String url = movieClient.getMovieImageUrl(simpleMovie.getImageUrl());
         MovieTile tile = new MovieTile(title, url);
-        tile.addActionListener((event) -> { //TODO
+        tile.addActionListener((event) -> {
             addCachedItem(Constants.MOVIE_ID_CACHE, String.valueOf(tile.getMovieId()));
             Main.setPanel(Main.Frame.DETAILS, getCache());
         });

@@ -58,9 +58,6 @@ public class Main extends JFrame {
 
     private void initGui() {
 
-        setPanel(Frame.MAIN); //TODO
-//        setPanel(Frame.SEATS);
-
         int width = Integer.parseInt(PropertyService.getProperty("app.default.width", "800"));
         int height = Integer.parseInt(PropertyService.getProperty("app.default.height", "600"));
         setPreferredSize(new Dimension(width, height));
@@ -70,6 +67,8 @@ public class Main extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+
+        setPanel(Frame.MAIN);
     }
 
     public enum Frame {

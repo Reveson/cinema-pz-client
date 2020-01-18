@@ -13,7 +13,7 @@ import com.example.cinema.cinemapz.error.ErrorCode;
 import com.example.cinema.cinemapz.utils.Constants;
 import com.example.cinema.cinemapz.utils.StringUtils;
 
-public class PropertyService { //TODO singleton
+public class PropertyService {
 
     private static Properties properties = null;
 
@@ -60,6 +60,10 @@ public class PropertyService { //TODO singleton
 
     public static void setLocale(Locale locale) {
         resourceBundle = ResourceBundle.getBundle("messages", locale);
+    }
+
+    public static String getLanguageTagFromLocale() {
+        return resourceBundle.getLocale().toLanguageTag();
     }
 
     public static String mapErrorToProperty(String stringifiedErrorCode) {

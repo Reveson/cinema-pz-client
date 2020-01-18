@@ -58,7 +58,7 @@ public class MovieDetailsPanel extends AbstractPanel {
             Main.setPanel(Main.Frame.MAIN);
         });
 
-        JLabel imageLabel = getImage("https://images-na.ssl-images-amazon.com/images/I/51D8AEqiZ-L.jpg"); //TODO
+        JLabel imageLabel = getImage(movieClient.getMovieImageUrl(movie.getImageUrl()));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridheight = 5;

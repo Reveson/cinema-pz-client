@@ -70,7 +70,7 @@ public class ProjectionsPanel extends AbstractPanel {
 			DayOfWeek currentlyIteratedDOW = DayOfWeek.of(ordinalNumberOfDayOfWeek);
 			if (dayOfWeekToProjection.containsKey(currentlyIteratedDOW)) {
 				addDayName(currentlyIteratedDOW.name(), gbc);
-				for (ProjectionIdWithEpoch projection : dayOfWeekToProjection.get(currentlyIteratedDOW)) { //TODO sorted?
+				for (ProjectionIdWithEpoch projection : dayOfWeekToProjection.get(currentlyIteratedDOW)) {
 					String projectionTimeStringified = Instant.ofEpochMilli(projection.getStartTimeEpoch())
 							.atZone(Constants.CINEMA_TIME_ZONE)
 							.toLocalTime()
