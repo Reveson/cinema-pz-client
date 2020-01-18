@@ -44,6 +44,7 @@ public abstract class RestClient {
 
         throwExceptionIfStatuNotOK(response);
 
+
         return serializer.apply(response);
     }
 

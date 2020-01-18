@@ -7,5 +7,22 @@ import javax.swing.*;
 
 public abstract class AbstractPanel extends JPanel {
 
-	Map<String, String> cachedInfo = new HashMap<>();
+	private Map<String, String> cachedInfo = new HashMap<>();
+
+	String getCachedItem(String key) {
+		return cachedInfo.get(key);
+	}
+
+	void addCachedItem(String key, String value) {
+		cachedInfo.put(key, value);
+	}
+
+	void setCache(Map<String, String> cache) {
+		this.cachedInfo = cache;
+	}
+
+	Map<String, String> getCache() {
+		return cachedInfo;
+	}
+
 }

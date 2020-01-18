@@ -3,6 +3,7 @@ package com.example.cinema.cinemapz;
 import java.awt.*;
 import java.io.IOException;
 
+import java.util.Map;
 import javax.swing.*;
 
 import com.example.cinema.cinemapz.panel.MainPanel;
@@ -34,18 +35,22 @@ public class Main extends JFrame {
     }
 
     public static void setPanel(Frame frame) {
+        setPanel(frame, null);
+    }
+
+    public static void setPanel(Frame frame, Map<String, String> cache) {
         switch (frame) {
             case MAIN:
                 thisObject.add(new MainPanel());
                 break;
             case DETAILS:
-                thisObject.add(new MovieDetailsPanel());
+                thisObject.add(new MovieDetailsPanel(cache));
                 break;
             case PROJECTIONS:
-                thisObject.add(new ProjectionsPanel());
+                thisObject.add(new ProjectionsPanel(cache));
                 break;
             case SEATS:
-                thisObject.add(new TicketPanel());
+                thisObject.add(new TicketPanel(cache));
                 break;
         }
         thisObject.pack();
@@ -53,8 +58,8 @@ public class Main extends JFrame {
 
     private void initGui() {
 
-//        setPanel(Frame.MAIN); //TODO
-        setPanel(Frame.SEATS);
+        setPanel(Frame.MAIN); //TODO
+//        setPanel(Frame.SEATS);
 
         int width = Integer.parseInt(PropertyService.getProperty("app.default.width", "800"));
         int height = Integer.parseInt(PropertyService.getProperty("app.default.height", "600"));

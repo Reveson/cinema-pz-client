@@ -1,5 +1,6 @@
 package com.example.cinema.cinemapz.component;
 
+import com.example.cinema.cinemapz.component.JSeat.Status;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,11 @@ public class SeatsTile extends JComponent {
 
 	private List<JSeat> seatIconsList = new ArrayList<>();
 
-	public SeatsTile(int[][] seatsPlacement, List<SeatDto> seats) {
-		setLayout(initializeLayout(seatsPlacement.length));
+	public SeatsTile(List<Integer[]> seatsPlacement, List<SeatDto> seats) {
+		setLayout(initializeLayout(seatsPlacement.size()));
 		Map<Integer, SeatDto> idToSeatMap = seats.stream().collect(Collectors.toMap(SeatDto::getId, Function.identity()));
 
-		for(int[] rowList : seatsPlacement) {
+		for(Integer[] rowList : seatsPlacement) {
 			for(int seatId : rowList) {
 				SeatDto seatDto = idToSeatMap.get(seatId);
 				if(seatDto != null) {
@@ -40,6 +41,12 @@ public class SeatsTile extends JComponent {
 		layout.setHgap(10);
 		layout.setVgap(10);
 		return layout;
+	}
+
+	public List<JSeat> getChosenSeats() {
+		return seatIconsList.stream()
+				.filter(seat -> seat.getStatus().equals(Status.SELECTED))
+				.collect(Collectors.toList());
 	}
 
 }

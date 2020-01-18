@@ -15,6 +15,7 @@ import com.example.cinema.cinemapz.Main;
 //public class MovieTile extends JComponent implements ActionListener {
 public class MovieTile extends JButton {
 
+    private int movieId;
     private JLabel title;
     private JLabel image;
 
@@ -40,9 +41,15 @@ public class MovieTile extends JButton {
         setContentAreaFilled(false);
         setBorderPainted(false);
 
-        addActionListener((event) -> { //TODO
-            Main.setPanel(Main.Frame.DETAILS);
-        });
     }
 
+
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
 }

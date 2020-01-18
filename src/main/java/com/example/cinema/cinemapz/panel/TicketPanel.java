@@ -1,19 +1,28 @@
 package com.example.cinema.cinemapz.panel;
 
 
+import com.example.cinema.cinemapz.component.JSeat;
+import com.example.cinema.cinemapz.exception.RestRequestException;
+import com.example.cinema.cinemapz.rest.TicketClient;
+import com.example.cinema.cinemapz.utils.Constants;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.component.SeatsTile;
 import com.example.cinema.cinemapz.dto.SeatDto;
 
-public class TicketPanel extends JPanel {
+public class TicketPanel extends AbstractPanel {
 
-	public TicketPanel() {
+	TicketClient ticketClient = new TicketClient();
+
+	public TicketPanel(Map<String, String> cache) {
+		setCache(cache);
 		initWindow();
 		initSeatsTile();
 	}
@@ -25,11 +34,9 @@ public class TicketPanel extends JPanel {
 	private void initSeatsTile() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(5, 5, 5, 5);
-		int[][] tmp = new int[][] {
-				{0 ,11,12,13,0 },
-				{14,15,16,32,33},
-				{17,18,19,34,35}
-		}; //TODO
+
+		List<Integer[]> seatsPlacement = getSeatsPlacement(getCachedItem(Constants.PROJECTION_ID_CACHE));
+		List<SeatDto> seats = getSeats(getCachedItem(Constants.PROJECTION_ID_CACHE));
 
 
 		JButton backButton = new JButton("Powrót"); //TODO
@@ -38,11 +45,11 @@ public class TicketPanel extends JPanel {
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(backButton, gbc);
 
-		backButton.addActionListener((event) -> { //TODO cache
-			Main.setPanel(Main.Frame.PROJECTIONS);
+		backButton.addActionListener((event) -> {
+			Main.setPanel(Main.Frame.PROJECTIONS, getCache());
 		});
 
-		SeatsTile seatsTile = new SeatsTile(tmp, mock());
+		SeatsTile seatsTile = new SeatsTile(seatsPlacement, seats);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 3;
@@ -58,7 +65,7 @@ public class TicketPanel extends JPanel {
 		gbc.gridy = 4;
 		add(titleLabel, gbc);
 
-		JLabel titleActualLabel = new JLabel("The hobbit: lorem ipsum"); //TODO
+		JLabel titleActualLabel = new JLabel(getCachedItem(Constants.MOVIE_NAME_CACHE));
 		gbc.gridx = 1;
 		gbc.gridy = 4;
 		add(titleActualLabel, gbc);
@@ -68,7 +75,7 @@ public class TicketPanel extends JPanel {
 		gbc.gridy = 5;
 		add(timeLabel, gbc);
 
-		JLabel timeActualLabel = new JLabel("12:30"); //TODO
+		JLabel timeActualLabel = new JLabel(getCachedItem(Constants.TIME_CACHE));
 		gbc.gridx = 1;
 		gbc.gridy = 5;
 		add(timeActualLabel, gbc);
@@ -93,42 +100,58 @@ public class TicketPanel extends JPanel {
 		gbc.gridy = 2;
 		gbc.gridwidth = 2;
 		add(acceptButton, gbc);
+		acceptButton.addActionListener(event -> {
+			List<JSeat> chosenSeats = seatsTile.getChosenSeats();
+			String clientName = nameTextField.getText();
+			try {
+				if(chosenSeats.size() == 0)
+					showErrorMonit();
+				reserveTickets(chosenSeats, clientName);
+				showSuccessMonit(chosenSeats, clientName);
+			} catch (RestRequestException e) {
+				showErrorMonit();
+			}
+		});
 
 	}
 
-	private List<SeatDto> mock() {
-		List<SeatDto> list = new ArrayList<>();
-		list.add(new SeatDto());
-		list.get(0).setId(11);
-		list.get(0).setCodeLetter("A");
-		list.get(0).setCodeNumber("1");
-		list.get(0).setOccupied(false);
+	List<Integer[]> getSeatsPlacement(String projectionId) {
+		return ticketClient.getSeatsPlacement(projectionId);
+	}
 
-		list.add(new SeatDto());
-		list.get(1).setId(12);
-		list.get(1).setCodeLetter("A");
-		list.get(1).setCodeNumber("2");
-		list.get(1).setOccupied(false);
+	List<SeatDto> getSeats(String projectionId) {
+		return ticketClient.getSeats(projectionId);
+	}
 
-		list.add(new SeatDto());
-		list.get(2).setId(14);
-		list.get(2).setCodeLetter("B");
-		list.get(2).setCodeNumber("1");
-		list.get(2).setOccupied(false);
 
-		list.add(new SeatDto());
-		list.get(3).setId(18);
-		list.get(3).setCodeLetter("C");
-		list.get(3).setCodeNumber("2");
-		list.get(3).setOccupied(true);
+	private void showSuccessMonit(List<JSeat> seats, String clientName) {
+		String reservedSeatsSymbols = seats.stream().map(JSeat::getName).collect(Collectors.joining(", "));
+		String reservedLabel = "Zarezerwowano: " + reservedSeatsSymbols; //TODO
+		String clientNameLabel = "Twoje imię: " + clientName;
+		String movieTitleLabel = "Film: " + getCachedItem(Constants.MOVIE_NAME_CACHE);
+		String hourLabel = "Godzina: " + getCachedItem(Constants.TIME_CACHE);
+		Object[] fields = {
+				reservedLabel,
+				clientNameLabel,
+				movieTitleLabel,
+				hourLabel
+		};
 
-		list.add(new SeatDto());
-		list.get(4).setId(13);
-		list.get(4).setCodeLetter("A");
-		list.get(4).setCodeNumber("3");
-		list.get(4).setOccupied(true);
+		JOptionPane
+				.showMessageDialog(this, fields, "Zarezerwowano", JOptionPane.INFORMATION_MESSAGE);
+		Main.setPanel(Main.Frame.MAIN);
+	}
 
-		return list;
+	private void showErrorMonit() {
+		String message = "error occurred"; //TODO
+		Object[] fields = {message};
+		JOptionPane.showMessageDialog(this, fields, "Błąd", JOptionPane.ERROR_MESSAGE);
+		Main.setPanel(Main.Frame.SEATS, getCache());
+	}
+
+	private void reserveTickets(List<JSeat> seats, String clientName) {
+		List<Integer> seatsIds = seats.stream().map(JSeat::getSeatId).collect(Collectors.toList());
+		ticketClient.bookTickets(getCachedItem(Constants.PROJECTION_ID_CACHE), seatsIds, clientName);
 	}
 
 }

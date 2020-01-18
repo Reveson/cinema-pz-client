@@ -32,4 +32,6 @@ public class StringUtils {
 		return a == null ? null : a.toUpperCase();
 	}
 
+
+
 }

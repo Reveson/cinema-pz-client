@@ -1,5 +1,8 @@
 package com.example.cinema.cinemapz.panel;
 
+import com.example.cinema.cinemapz.dto.MovieDto;
+import com.example.cinema.cinemapz.rest.MovieClient;
+import com.example.cinema.cinemapz.utils.Constants;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,18 +10,21 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.example.cinema.cinemapz.Main;
 
-public class MovieDetailsPanel extends JPanel {
+public class MovieDetailsPanel extends AbstractPanel {
 
-    public MovieDetailsPanel() {
+    private MovieClient movieClient = new MovieClient();
+
+    public MovieDetailsPanel(Map<String, String> cache) {
+        setCache(cache);
         initWindow();
         initElements();
     }
@@ -28,12 +34,13 @@ public class MovieDetailsPanel extends JPanel {
     }
 
     private void initElements() {
+        MovieDto movie = getMovie(getCachedItem(Constants.MOVIE_ID_CACHE));
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.NORTHWEST;
 
-        JLabel categoryLabel = new JLabel("Fantasy"); //TODO
+        JLabel categoryLabel = new JLabel(getCachedItem(movie.getCategoryName()));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -50,7 +57,7 @@ public class MovieDetailsPanel extends JPanel {
             Main.setPanel(Main.Frame.MAIN);
         });
 
-        JLabel imageLabel = getImage();
+        JLabel imageLabel = getImage("https://images-na.ssl-images-amazon.com/images/I/51D8AEqiZ-L.jpg"); //TODO
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridheight = 5;
@@ -64,7 +71,7 @@ public class MovieDetailsPanel extends JPanel {
         gbc.gridheight = 1;
         add(titleLabel, gbc);
 
-        JLabel titleActualLabel = new JLabel("The hobbit: lorem ipsum"); //TODO
+        JLabel titleActualLabel = new JLabel(movie.getName());
         gbc.gridx = 2;
         gbc.gridy = 2;
         add(titleActualLabel, gbc);
@@ -74,7 +81,7 @@ public class MovieDetailsPanel extends JPanel {
         gbc.gridy = 3;
         add(ageLabel, gbc);
 
-        JLabel ageActualLabel = new JLabel("+16"); //TODO
+        JLabel ageActualLabel = new JLabel(movie.getAge());
         gbc.gridx = 2;
         gbc.gridy = 3;
         add(ageActualLabel, gbc);
@@ -84,7 +91,7 @@ public class MovieDetailsPanel extends JPanel {
         gbc.gridy = 4;
         add(timeLabel, gbc);
 
-        JLabel timeActualLabel = new JLabel("1:20"); //TODO
+        JLabel timeActualLabel = new JLabel(movie.getDuration());
         gbc.gridx = 2;
         gbc.gridy = 4;
         add(timeActualLabel, gbc);
@@ -94,14 +101,7 @@ public class MovieDetailsPanel extends JPanel {
         gbc.gridy = 5;
         add(descriptionLabel, gbc);
 
-        String longDescr =
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut malesuada ullamcorper sem, vel vulputate ligula egestas ut."
-                        + " Etiam fermentum ligula neque, a viverra sem ultrices vel. Nam aliquam interdum nibh."
-                        + " Pellentesque fringilla suscipit leo, a commodo sem rutrum vitae."
-                        + " Aenean eu justo sit amet eros consequat blandit cursus nec dolor."
-                        + " Nam ultricies et orci ac iaculis. Vivamus luctus purus vitae mauris laoreet pellentesque.";
-//        JLabel descriptionActualLabel = new JLabel("Lorem ipsuuuum"); //TODO
-        JTextArea descriptionActualLabel = new JTextArea(longDescr); //TODO
+        JTextArea descriptionActualLabel = new JTextArea(movie.getDescription());
         descriptionActualLabel.setWrapStyleWord(true);
         descriptionActualLabel.setLineWrap(true);
         descriptionActualLabel.setOpaque(false);
@@ -119,13 +119,13 @@ public class MovieDetailsPanel extends JPanel {
         add(nextButton, gbc);
 
         nextButton.addActionListener((event) -> {
-            Main.setPanel(Main.Frame.PROJECTIONS);
+            addCachedItem(Constants.MOVIE_NAME_CACHE, movie.getName());
+            Main.setPanel(Main.Frame.PROJECTIONS, getCache());
         });
 
     }
 
-    private JLabel getImage() {
-        String url = "https://images-na.ssl-images-amazon.com/images/I/51D8AEqiZ-L.jpg";
+    private JLabel getImage(String url) {
         try {
             Image image = ImageIO
                     .read(new URL(url)).getScaledInstance(150, 200, Image.SCALE_SMOOTH);
@@ -138,4 +138,7 @@ public class MovieDetailsPanel extends JPanel {
         throw new RuntimeException();
     }//TODO to utils
 
+    private MovieDto getMovie(String movieId) {
+        return movieClient.getMovie(movieId);
+    }
 }

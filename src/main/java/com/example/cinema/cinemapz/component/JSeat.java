@@ -9,7 +9,6 @@ import com.example.cinema.cinemapz.dto.SeatDto;
 
 public class JSeat extends JCheckBox {
 
-	private Status status;
 	private int seatId;
 	private String name;
 	private static final int EXPECTED_WIDTH = 30;
@@ -48,7 +47,6 @@ public class JSeat extends JCheckBox {
 		initializeWithStatus(status);
 
 		setPreferredSize(new Dimension(EXPECTED_WIDTH, EXPECTED_HEIGHT));
-
 	}
 
 	private void initializeWithStatus(Status status) {
@@ -70,15 +68,35 @@ public class JSeat extends JCheckBox {
 				setVisible(false);
 				break;
 		}
-		setStatus(status);
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public Status getStatus() {
-		return status;
+		if(isEnabled() && isSelected())
+			return Status.SELECTED;
+		else if(isEnabled() && !isSelected())
+			return Status.FREE;
+		else if(!isEnabled() && isSelected())
+			return Status.OCCUPIED;
+		else
+			return Status.NOT_EXISTS;
+	}
+
+	public int getSeatId() {
+		return seatId;
+	}
+
+	public void setSeatId(int seatId) {
+		this.seatId = seatId;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public enum Status {
