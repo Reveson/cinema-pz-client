@@ -2,5 +2,6 @@
 +create cache mechanism
 +create listener for ticket book
 -translation
+-scroll for main panel
 -create exception handling
 -make it look nicer

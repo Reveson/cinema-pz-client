@@ -1,5 +1,6 @@
 package com.example.cinema.cinemapz.panel;
 
+import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.dto.MovieDto;
 import com.example.cinema.cinemapz.rest.MovieClient;
 import com.example.cinema.cinemapz.utils.Constants;
@@ -46,7 +47,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.gridwidth = 1;
         add(categoryLabel, gbc);
 
-        JButton backButton = new JButton("Powrót"); //TODO
+        JButton backButton = new JButton(PropertyService.getMessage("global.panel.back_button"));
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -65,7 +66,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         add(imageLabel, gbc);
 
-        JLabel titleLabel = new JLabel("Nazwa:"); //TODO
+        JLabel titleLabel = new JLabel(PropertyService.getMessage("details.panel.movie_title"));
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridheight = 1;
@@ -76,7 +77,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.gridy = 2;
         add(titleActualLabel, gbc);
 
-        JLabel ageLabel = new JLabel("Wiek:"); //TODO
+        JLabel ageLabel = new JLabel(PropertyService.getMessage("details.panel.age"));
         gbc.gridx = 1;
         gbc.gridy = 3;
         add(ageLabel, gbc);
@@ -86,7 +87,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.gridy = 3;
         add(ageActualLabel, gbc);
 
-        JLabel timeLabel = new JLabel("czas:"); //TODO
+        JLabel timeLabel = new JLabel(PropertyService.getMessage("details.panel.time"));
         gbc.gridx = 1;
         gbc.gridy = 4;
         add(timeLabel, gbc);
@@ -96,7 +97,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.gridy = 4;
         add(timeActualLabel, gbc);
 
-        JLabel descriptionLabel = new JLabel("opis:"); //TODO
+        JLabel descriptionLabel = new JLabel(PropertyService.getMessage("details.panel.description"));
         gbc.gridx = 1;
         gbc.gridy = 5;
         add(descriptionLabel, gbc);
@@ -112,7 +113,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.gridy = 5;
         add(descriptionActualLabel, gbc);
 
-        JButton nextButton = new JButton("Zobacz godziny seansów"); //TODO
+        JButton nextButton = new JButton(PropertyService.getMessage("details.panel.submit"));
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.SOUTHWEST;

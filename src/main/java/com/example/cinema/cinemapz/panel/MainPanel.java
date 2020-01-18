@@ -1,6 +1,7 @@
 package com.example.cinema.cinemapz.panel;
 
 import com.example.cinema.cinemapz.Main;
+import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.dto.MovieCategoryDto;
 import com.example.cinema.cinemapz.dto.SimpleMovie;
 import com.example.cinema.cinemapz.rest.MovieClient;
@@ -38,7 +39,7 @@ public class MainPanel extends AbstractPanel {
 //        categorySelectionComponent.setLayout(new BoxLayout(categorySelectionComponent, BoxLayout.X_AXIS));
         categorySelectionComponent.setLayout(new FlowLayout());
 
-        JLabel categoryLabel = new JLabel("Kategoria:"); //TODO
+        JLabel categoryLabel = new JLabel(PropertyService.getMessage("main.panel.category_label"));
         categorySelectionComponent.add(categoryLabel);
 
         JComboBox<MovieCategoryDto> categoryCombo = getCategoryDropdownList();
@@ -68,7 +69,7 @@ public class MainPanel extends AbstractPanel {
         JComboBox<MovieCategoryDto> categoryCombo = new JComboBox<>();
         List<MovieCategoryDto> categories = getCategories();
         MovieCategoryDto mockCategory = new MovieCategoryDto();
-        mockCategory.setName("All"); //TODO
+        mockCategory.setName(PropertyService.getMessage("main.panel.category.all"));
         categoryCombo.addItem(mockCategory);
         for(MovieCategoryDto category : categories) {
             categoryCombo.addItem(category);

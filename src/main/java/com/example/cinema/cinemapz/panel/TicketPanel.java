@@ -1,12 +1,13 @@
 package com.example.cinema.cinemapz.panel;
 
 
+import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.component.JSeat;
 import com.example.cinema.cinemapz.exception.RestRequestException;
 import com.example.cinema.cinemapz.rest.TicketClient;
 import com.example.cinema.cinemapz.utils.Constants;
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Map;
@@ -39,7 +40,7 @@ public class TicketPanel extends AbstractPanel {
 		List<SeatDto> seats = getSeats(getCachedItem(Constants.PROJECTION_ID_CACHE));
 
 
-		JButton backButton = new JButton("Powrót"); //TODO
+		JButton backButton = new JButton(PropertyService.getMessage("global.panel.back_button"));
 		gbc.gridx = 6;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.NORTHEAST;
@@ -60,7 +61,7 @@ public class TicketPanel extends AbstractPanel {
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 
-		JLabel titleLabel = new JLabel("Nazwa:"); //TODO
+		JLabel titleLabel = new JLabel(PropertyService.getMessage("seats.panel.title"));
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		add(titleLabel, gbc);
@@ -70,7 +71,7 @@ public class TicketPanel extends AbstractPanel {
 		gbc.gridy = 4;
 		add(titleActualLabel, gbc);
 
-		JLabel timeLabel = new JLabel("godzina:"); //TODO
+		JLabel timeLabel = new JLabel(PropertyService.getMessage("seats.panel.time"));
 		gbc.gridx = 0;
 		gbc.gridy = 5;
 		add(timeLabel, gbc);
@@ -80,7 +81,7 @@ public class TicketPanel extends AbstractPanel {
 		gbc.gridy = 5;
 		add(timeActualLabel, gbc);
 
-		JLabel nameLabel = new JLabel("Twoje imię:"); //TODO
+		JLabel nameLabel = new JLabel(PropertyService.getMessage("seats.panel.name"));
 		gbc.gridx = 4;
 		gbc.gridy = 1;
 		add(nameLabel, gbc);
@@ -95,7 +96,7 @@ public class TicketPanel extends AbstractPanel {
 //		gbc.gridwidth = 2;
 		add(nameTextField, gbc);
 
-		JButton acceptButton = new JButton("Rezerwuj"); //TODO
+		JButton acceptButton = new JButton(PropertyService.getMessage("seats.panel.submit"));
 		gbc.gridx = 4;
 		gbc.gridy = 2;
 		gbc.gridwidth = 2;
@@ -104,12 +105,14 @@ public class TicketPanel extends AbstractPanel {
 			List<JSeat> chosenSeats = seatsTile.getChosenSeats();
 			String clientName = nameTextField.getText();
 			try {
-				if(chosenSeats.size() == 0)
-					showErrorMonit();
+				if(chosenSeats.size() == 0) {
+					showErrorDialog("seats.panel.error.no_seats");
+					return;
+				}
 				reserveTickets(chosenSeats, clientName);
-				showSuccessMonit(chosenSeats, clientName);
+				showSuccessDialog(chosenSeats, clientName);
 			} catch (RestRequestException e) {
-				showErrorMonit();
+				showErrorDialog("seats.panel.error.default"); //TODO
 			}
 		});
 
@@ -124,12 +127,19 @@ public class TicketPanel extends AbstractPanel {
 	}
 
 
-	private void showSuccessMonit(List<JSeat> seats, String clientName) {
-		String reservedSeatsSymbols = seats.stream().map(JSeat::getName).collect(Collectors.joining(", "));
-		String reservedLabel = "Zarezerwowano: " + reservedSeatsSymbols; //TODO
-		String clientNameLabel = "Twoje imię: " + clientName;
-		String movieTitleLabel = "Film: " + getCachedItem(Constants.MOVIE_NAME_CACHE);
-		String hourLabel = "Godzina: " + getCachedItem(Constants.TIME_CACHE);
+	private void showSuccessDialog(List<JSeat> seats, String clientName) {
+		String reservedSeatsSymbols = seats.stream().map(JSeat::getName)
+				.collect(Collectors.joining(", "));
+		String reservedLabel = PropertyService.getMessage("seats.panel.success.reserved") + " "
+				+ reservedSeatsSymbols;
+		String clientNameLabel =
+				PropertyService.getMessage("seats.panel.success.name") + " " + clientName;
+		String movieTitleLabel =
+				PropertyService.getMessage("seats.panel.success.movie") + " " + getCachedItem(
+						Constants.MOVIE_NAME_CACHE);
+		String hourLabel =
+				PropertyService.getMessage("seats.panel.success.time") + " " + getCachedItem(
+						Constants.TIME_CACHE);
 		Object[] fields = {
 				reservedLabel,
 				clientNameLabel,
@@ -138,14 +148,17 @@ public class TicketPanel extends AbstractPanel {
 		};
 
 		JOptionPane
-				.showMessageDialog(this, fields, "Zarezerwowano", JOptionPane.INFORMATION_MESSAGE);
+				.showMessageDialog(this, fields,
+						PropertyService.getMessage("seats.panel.success.header"),
+						JOptionPane.INFORMATION_MESSAGE);
 		Main.setPanel(Main.Frame.MAIN);
 	}
 
-	private void showErrorMonit() {
-		String message = "error occurred"; //TODO
+	private void showErrorDialog(String propertyMessage) {
+		String message = PropertyService.getMessage(propertyMessage);
 		Object[] fields = {message};
-		JOptionPane.showMessageDialog(this, fields, "Błąd", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, fields,
+				PropertyService.getMessage("seats.panel.error.header"), JOptionPane.ERROR_MESSAGE);
 		Main.setPanel(Main.Frame.SEATS, getCache());
 	}
 

@@ -1,12 +1,12 @@
 package com.example.cinema.cinemapz.panel;
 
+import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.rest.MovieClient;
 import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,7 +44,7 @@ public class ProjectionsPanel extends AbstractPanel {
 		gbc.gridwidth = 1;
 		add(categoryLabel, gbc);
 
-		JButton backButton = new JButton("Powrót"); //TODO
+		JButton backButton = new JButton(PropertyService.getMessage("global.panel.back_button"));
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.gridwidth = 1;
@@ -109,13 +109,17 @@ public class ProjectionsPanel extends AbstractPanel {
 		return epoch + SEVEN_DAYS_IN_MILLIS;
 	}
 
-	private void addDayName(String dayOfMonthName, GridBagConstraints gbc) {
-		final JLabel dayOfMonth = new JLabel(dayOfMonthName);
+	private void addDayName(String dayOfWeekName, GridBagConstraints gbc) {
+		final JLabel dayOfWeek = new JLabel(getTranslatedDayOfWeek(dayOfWeekName));
 
 		gbc.gridy += 1;
 		gbc.gridx = 0;
 		gbc.anchor = GridBagConstraints.NORTHWEST;
-		add(dayOfMonth, gbc);
+		add(dayOfWeek, gbc);
+	}
+
+	private String getTranslatedDayOfWeek(String dayOfWeekName) {
+		return PropertyService.getProperty("global.panel.day."+dayOfWeekName.toLowerCase());
 	}
 
 	private void addButton(String timeStringified, int projectionId, GridBagConstraints gbc) {
