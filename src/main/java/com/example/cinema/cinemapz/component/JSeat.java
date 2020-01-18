@@ -1,11 +1,13 @@
 package com.example.cinema.cinemapz.component;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
-import javax.swing.*;
-
 import com.example.cinema.cinemapz.dto.SeatDto;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 
 public class JSeat extends JCheckBox {
 

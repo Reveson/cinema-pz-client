@@ -1,22 +1,24 @@
 package com.example.cinema.cinemapz.panel;
 
 
+import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.component.JSeat;
+import com.example.cinema.cinemapz.component.SeatsTile;
+import com.example.cinema.cinemapz.dto.SeatDto;
 import com.example.cinema.cinemapz.exception.RestRequestException;
 import com.example.cinema.cinemapz.rest.TicketClient;
 import com.example.cinema.cinemapz.utils.Constants;
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Prop;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
-
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.swing.*;
-
-import com.example.cinema.cinemapz.Main;
-import com.example.cinema.cinemapz.component.SeatsTile;
-import com.example.cinema.cinemapz.dto.SeatDto;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class TicketPanel extends AbstractPanel {
 
@@ -46,9 +48,7 @@ public class TicketPanel extends AbstractPanel {
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(backButton, gbc);
 
-		backButton.addActionListener((event) -> {
-			Main.setPanel(Main.Frame.PROJECTIONS, getCache());
-		});
+		backButton.addActionListener((event) -> Main.setPanel(Main.Frame.PROJECTIONS, getCache()));
 
 		SeatsTile seatsTile = new SeatsTile(seatsPlacement, seats);
 		gbc.gridx = 0;
@@ -89,11 +89,8 @@ public class TicketPanel extends AbstractPanel {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
 		JTextField nameTextField = new JTextField(null, 12);
-//		nameTextField.setMinimumSize(new Dimension(80, 0));
-//		nameTextField.setPreferredSize(new Dimension(100, 30));
 		gbc.gridx = 5;
 		gbc.gridy = 1;
-//		gbc.gridwidth = 2;
 		add(nameTextField, gbc);
 
 		JButton acceptButton = new JButton(PropertyService.getMessage("seats.panel.submit"));

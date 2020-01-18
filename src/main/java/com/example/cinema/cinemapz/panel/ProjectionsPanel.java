@@ -1,8 +1,13 @@
 package com.example.cinema.cinemapz.panel;
 
+import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.PropertyService;
+import com.example.cinema.cinemapz.dto.ProjectionIdWithEpoch;
 import com.example.cinema.cinemapz.rest.MovieClient;
-import java.awt.*;
+import com.example.cinema.cinemapz.utils.Constants;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -10,12 +15,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.swing.*;
-
-import com.example.cinema.cinemapz.Main;
-import com.example.cinema.cinemapz.dto.ProjectionIdWithEpoch;
-import com.example.cinema.cinemapz.utils.Constants;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class ProjectionsPanel extends AbstractPanel {
 
@@ -100,7 +101,6 @@ public class ProjectionsPanel extends AbstractPanel {
 	}
 
 	private long getTodayMidnightEpoch() {
-		//		return LocalDateTime.of(LocalDate.now(Constants.CINEMA_TIME_ZONE), LocalTime.MIDNIGHT).toEpochSecond(Constants.CINEMA_TIME_ZONE);
 		return LocalDate.now(Constants.CINEMA_TIME_ZONE).atStartOfDay(Constants.CINEMA_TIME_ZONE).toEpochSecond() * 1000;
 	}
 

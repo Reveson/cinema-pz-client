@@ -3,19 +3,18 @@ package com.example.cinema.cinemapz.panel;
 import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.Main.Frame;
 import com.example.cinema.cinemapz.PropertyService;
+import com.example.cinema.cinemapz.component.MovieTile;
 import com.example.cinema.cinemapz.dto.MovieCategoryDto;
 import com.example.cinema.cinemapz.dto.RestFields;
 import com.example.cinema.cinemapz.dto.SimpleMovie;
 import com.example.cinema.cinemapz.rest.MovieClient;
-
 import com.example.cinema.cinemapz.utils.Constants;
 import com.example.cinema.cinemapz.utils.LanguageComboObject;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
-
-import com.example.cinema.cinemapz.component.MovieTile;
 import java.util.Locale;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -40,7 +39,6 @@ public class MainPanel extends AbstractPanel {
     }
 
     private void initTopPanel() {
-//        categorySelectionComponent.setLayout(new BoxLayout(categorySelectionComponent, BoxLayout.X_AXIS));
         categorySelectionComponent.setLayout(new FlowLayout());
 
         JLabel categoryLabel = new JLabel(PropertyService.getMessage("main.panel.category"));
@@ -60,19 +58,25 @@ public class MainPanel extends AbstractPanel {
     }
 
     private void initMoviePanel(List<SimpleMovie> movies) {
+        final int columnsNumber = 3;
         movieListComponent.removeAll();
-        int numberOfMovies = movies.size();
-        GridLayout layout = new GridLayout();
-        movieListComponent.setLayout(layout);
 
-        layout.setRows(numberOfMovies > 0 ? (int) Math.ceil(numberOfMovies/3.0) : 1);
-        layout.setHgap(50);
+        movieListComponent.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.gridx = 0;
+        gbc.gridy = -1;
 
-        for(SimpleMovie simpleMovie : movies) {
-            movieListComponent.add(getMovieTitle(simpleMovie));
+        for(int i = 0; i < movies.size(); i++) {
+            gbc.gridx = i%columnsNumber;
+            if(gbc.gridx == 0)
+                gbc.gridy += 1;
+            movieListComponent.add(getMovieTitle(movies.get(i)), gbc);
         }
 
     }
+
+
 
     private JComboBox<MovieCategoryDto> getCategoryDropdownList() {
         JComboBox<MovieCategoryDto> categoryCombo = new JComboBox<>();

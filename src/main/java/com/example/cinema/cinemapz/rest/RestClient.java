@@ -1,21 +1,17 @@
 package com.example.cinema.cinemapz.rest;
 
+import com.example.cinema.cinemapz.PropertyService;
+import com.example.cinema.cinemapz.error.RestApiErrorAttributes;
+import com.example.cinema.cinemapz.exception.RestRequestException;
+import java.util.List;
+import java.util.function.Function;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.example.cinema.cinemapz.PropertyService;
-import com.example.cinema.cinemapz.exception.RestRequestException;
-
 import org.apache.log4j.Logger;
-
-import com.example.cinema.cinemapz.error.RestApiErrorAttributes;
-
-import java.util.List;
-import java.util.function.Function;
 
 public abstract class RestClient {
 
@@ -65,18 +61,6 @@ public abstract class RestClient {
 
     WebTarget getTarget() {
         return client.target(REST_URI);
-    }
-
-    <T> String stringifyList(List<T> list) {
-        StringBuilder builder = new StringBuilder();
-        int lastElementIndex = list.size() - 1;
-
-        for (int i = 0; ; i++) {
-            builder.append(list.get(i));
-            if (i == lastElementIndex)
-                return builder.toString();
-            builder.append(",");
-        }
     }
 
 }

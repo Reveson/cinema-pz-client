@@ -1,10 +1,10 @@
 package com.example.cinema.cinemapz.panel;
 
+import com.example.cinema.cinemapz.Main;
 import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.dto.MovieDto;
 import com.example.cinema.cinemapz.rest.MovieClient;
 import com.example.cinema.cinemapz.utils.Constants;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -17,8 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-
-import com.example.cinema.cinemapz.Main;
 
 public class MovieDetailsPanel extends AbstractPanel {
 
@@ -54,9 +52,7 @@ public class MovieDetailsPanel extends AbstractPanel {
         gbc.anchor = GridBagConstraints.NORTHEAST;
         add(backButton, gbc);
 
-        backButton.addActionListener((event) -> {
-            Main.setPanel(Main.Frame.MAIN);
-        });
+        backButton.addActionListener((event) -> Main.setPanel(Main.Frame.MAIN));
 
         JLabel imageLabel = getImage(movieClient.getMovieImageUrl(movie.getImageUrl()));
         gbc.gridx = 0;
@@ -107,8 +103,6 @@ public class MovieDetailsPanel extends AbstractPanel {
         descriptionActualLabel.setLineWrap(true);
         descriptionActualLabel.setOpaque(false);
         descriptionActualLabel.setEditable(false);
-        descriptionActualLabel.setMinimumSize(new Dimension(400, 100));
-//        descriptionActualLabel.setHighlighter(null);
         gbc.gridx = 2;
         gbc.gridy = 5;
         add(descriptionActualLabel, gbc);

@@ -2,8 +2,7 @@ package com.example.cinema.cinemapz.panel;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.*;
+import javax.swing.JPanel;
 
 public abstract class AbstractPanel extends JPanel {
 

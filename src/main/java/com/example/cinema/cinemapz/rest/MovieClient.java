@@ -5,11 +5,8 @@ import com.example.cinema.cinemapz.dto.MovieCategoryDto;
 import com.example.cinema.cinemapz.dto.MovieDto;
 import com.example.cinema.cinemapz.dto.ProjectionIdWithEpoch;
 import com.example.cinema.cinemapz.dto.SimpleMovie;
-
-import java.util.Properties;
-import javax.ws.rs.core.GenericType;
-import java.time.Instant;
 import java.util.List;
+import javax.ws.rs.core.GenericType;
 
 public class MovieClient extends RestClient {
 

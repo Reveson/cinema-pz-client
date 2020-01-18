@@ -1,24 +1,22 @@
 package com.example.cinema.cinemapz;
 
-import java.awt.*;
-import java.io.IOException;
-
-import java.util.Map;
-import javax.swing.*;
-
 import com.example.cinema.cinemapz.panel.MainPanel;
 import com.example.cinema.cinemapz.panel.MovieDetailsPanel;
 import com.example.cinema.cinemapz.panel.ProjectionsPanel;
 import com.example.cinema.cinemapz.panel.TicketPanel;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.io.IOException;
+import java.util.Map;
+import javax.swing.JFrame;
 
 public class Main extends JFrame {
 
-//    Logger logger = new Logger.(Main.class);
-    private Component currentPanel;
     private static Main thisObject;
 
     public static void main(String[] args) throws IOException {
-    	PropertyService.initialize();
+        PropertyService.initialize();
         EventQueue.invokeLater(Main::new);
     }
 

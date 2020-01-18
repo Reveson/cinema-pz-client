@@ -1,5 +1,8 @@
 package com.example.cinema.cinemapz;
 
+import com.example.cinema.cinemapz.error.ErrorCode;
+import com.example.cinema.cinemapz.utils.Constants;
+import com.example.cinema.cinemapz.utils.StringUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
@@ -8,10 +11,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
-import com.example.cinema.cinemapz.error.ErrorCode;
-import com.example.cinema.cinemapz.utils.Constants;
-import com.example.cinema.cinemapz.utils.StringUtils;
 
 public class PropertyService {
 

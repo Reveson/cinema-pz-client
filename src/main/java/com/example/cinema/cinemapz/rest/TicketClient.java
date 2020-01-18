@@ -1,10 +1,9 @@
 package com.example.cinema.cinemapz.rest;
 
 import com.example.cinema.cinemapz.dto.SeatDto;
-
+import java.util.List;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import java.util.List;
 
 public class TicketClient extends RestClient {
 
