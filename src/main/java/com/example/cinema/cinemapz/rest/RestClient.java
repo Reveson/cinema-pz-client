@@ -1,10 +1,13 @@
 package com.example.cinema.cinemapz.rest;
 
+import com.example.cinema.cinemapz.Main;
+import com.example.cinema.cinemapz.Main.Frame;
 import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.error.RestApiErrorAttributes;
 import com.example.cinema.cinemapz.exception.RestRequestException;
 import java.util.List;
 import java.util.function.Function;
+import javax.swing.JOptionPane;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -26,37 +29,46 @@ public abstract class RestClient {
         REST_URI = "http://" + host + ":" + port;
     }
 
-    <T> T getJson(WebTarget webTarget, Class<T> clazz) throws RestRequestException {
+    <T> T getJson(WebTarget webTarget, Class<T> clazz) {
         return getJson(webTarget, (response) -> response.readEntity(clazz));
     }
 
-    <T> List<T> getJson(WebTarget webTarget, GenericType<List<T>> genericType)
-            throws RestRequestException {
+    <T> List<T> getJson(WebTarget webTarget, GenericType<List<T>> genericType) {
         return getJson(webTarget, (response) -> response.readEntity(genericType));
     }
 
     private <R> R getJson(WebTarget webTarget, Function<Response, R> serializer) {
-        Response response = webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
-
-        throwExceptionIfStatuNotOK(response);
-
-
-        return serializer.apply(response);
+        Response response;
+        try {
+            response = webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
+            return serializer.apply(response);
+        } catch (Exception e) {
+            showErrorDialog();
+            return null;
+        }
     }
 
     void post(WebTarget webTarget) {
         Response response = webTarget.request(MediaType.APPLICATION_JSON).post(null, Response.class);
 
-        throwExceptionIfStatuNotOK(response);
+        throwExceptionIfStatusNotOK(response);
     }
 
-    private void throwExceptionIfStatuNotOK(Response response) throws RestRequestException {
+    private void throwExceptionIfStatusNotOK(Response response) throws RestRequestException {
         if (response.getStatusInfo().getStatusCode() != Response.Status.OK.getStatusCode()) {
             RestApiErrorAttributes errorObject = response.readEntity(RestApiErrorAttributes.class);
 
             logger.warn("Invalid rest request: " + errorObject);
             throw new RestRequestException(errorObject);
         }
+    }
+
+    private void showErrorDialog() {
+        String message = PropertyService.getMessage("global.panel.error.default");
+        Object[] fields = {message};
+        JOptionPane.showMessageDialog(null, fields,
+                PropertyService.getMessage("seats.panel.error.header"), JOptionPane.ERROR_MESSAGE);
+        Main.setPanel(Frame.MAIN);
     }
 
     WebTarget getTarget() {

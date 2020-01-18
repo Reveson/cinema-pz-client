@@ -1,5 +1,6 @@
 package com.example.cinema.cinemapz.component;
 
+import com.example.cinema.cinemapz.utils.ImageUtils;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.IOException;
@@ -21,14 +22,9 @@ public class MovieTile extends JButton {
 
     public MovieTile(String title, String imageUrl) {
         this.title = new JLabel(title);
-        try {
-            Image image = ImageIO.read(new URL(imageUrl)).getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
-            this.image = new JLabel(new ImageIcon(image));
-            this.image.setSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
-        } catch (IOException e) {
-            //TODO default image;
-            e.printStackTrace();
-        }
+
+        this.image = ImageUtils.getImage(imageUrl, IMAGE_WIDTH, IMAGE_HEIGHT);
+        this.image.setSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(this.image);

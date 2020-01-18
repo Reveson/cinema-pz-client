@@ -37,7 +37,7 @@ public class PropertyService {
                 StringUtils.isNullOrEmpty(fileName) ? Constants.DEFAULT_PROPERTIES_NAME : fileName;
         FileInputStream inputStream = new FileInputStream(
                 PropertyService.class.getClassLoader().getResource(fileNameToRead)
-                        .getFile()); //TODO
+                        .getFile());
         properties.load(inputStream);
         inputStream.close();
     }

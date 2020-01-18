@@ -5,6 +5,7 @@ import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.dto.MovieDto;
 import com.example.cinema.cinemapz.rest.MovieClient;
 import com.example.cinema.cinemapz.utils.Constants;
+import com.example.cinema.cinemapz.utils.ImageUtils;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -54,7 +55,7 @@ public class MovieDetailsPanel extends AbstractPanel {
 
         backButton.addActionListener((event) -> Main.setPanel(Main.Frame.MAIN));
 
-        JLabel imageLabel = getImage(movieClient.getMovieImageUrl(movie.getImageUrl()));
+        JLabel imageLabel = ImageUtils.getImage(movieClient.getMovieImageUrl(movie.getImageUrl()), 150, 200);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridheight = 5;
@@ -119,19 +120,6 @@ public class MovieDetailsPanel extends AbstractPanel {
         });
 
     }
-
-    private JLabel getImage(String url) {
-        try {
-            Image image = ImageIO
-                    .read(new URL(url)).getScaledInstance(150, 200, Image.SCALE_SMOOTH);
-            return new JLabel(new ImageIcon(image));
-        } catch (IOException e) {
-            //TODO default image;
-            e.printStackTrace();
-        }
-
-        throw new RuntimeException();
-    }//TODO to utils
 
     private MovieDto getMovie(String movieId) {
         return movieClient.getMovie(movieId);

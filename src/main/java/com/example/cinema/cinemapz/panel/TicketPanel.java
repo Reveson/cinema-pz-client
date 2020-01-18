@@ -12,6 +12,7 @@ import com.example.cinema.cinemapz.utils.Constants;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.net.SocketException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import sun.net.ConnectionResetException;
 
 public class TicketPanel extends AbstractPanel {
 
@@ -108,8 +110,8 @@ public class TicketPanel extends AbstractPanel {
 				}
 				reserveTickets(chosenSeats, clientName);
 				showSuccessDialog(chosenSeats, clientName);
-			} catch (RestRequestException e) {
-				showErrorDialog("seats.panel.error.default"); //TODO
+			} catch (RuntimeException e) {
+				showErrorDialog("global.panel.error.default");
 			}
 		});
 
