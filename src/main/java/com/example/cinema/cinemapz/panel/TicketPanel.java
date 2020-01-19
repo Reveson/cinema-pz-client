@@ -9,6 +9,7 @@ import com.example.cinema.cinemapz.dto.SeatDto;
 import com.example.cinema.cinemapz.exception.RestRequestException;
 import com.example.cinema.cinemapz.rest.TicketClient;
 import com.example.cinema.cinemapz.utils.Constants;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -43,10 +44,17 @@ public class TicketPanel extends AbstractPanel {
 		List<Integer[]> seatsPlacement = getSeatsPlacement(getCachedItem(Constants.PROJECTION_ID_CACHE));
 		List<SeatDto> seats = getSeats(getCachedItem(Constants.PROJECTION_ID_CACHE));
 
+		JLabel screenLabel = new JLabel(PropertyService.getMessage("seats.panel.screen"));
+		screenLabel.setForeground(Color.BLUE);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 3;
+		add(screenLabel, gbc);
 
 		JButton backButton = new JButton(PropertyService.getMessage("global.panel.back_button"));
 		gbc.gridx = 6;
 		gbc.gridy = 0;
+		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(backButton, gbc);
 

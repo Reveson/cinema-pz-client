@@ -119,7 +119,7 @@ public class ProjectionsPanel extends AbstractPanel {
 	}
 
 	private String getTranslatedDayOfWeek(String dayOfWeekName) {
-		return PropertyService.getProperty("global.panel.day."+dayOfWeekName.toLowerCase());
+		return PropertyService.getMessage("global.panel.day."+dayOfWeekName.toLowerCase());
 	}
 
 	private void addButton(String timeStringified, int projectionId, GridBagConstraints gbc) {
