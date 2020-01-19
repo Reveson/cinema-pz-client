@@ -5,6 +5,7 @@ import com.example.cinema.cinemapz.utils.Constants;
 import com.example.cinema.cinemapz.utils.StringUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
@@ -35,9 +36,9 @@ public class PropertyService {
 
         String fileNameToRead =
                 StringUtils.isNullOrEmpty(fileName) ? Constants.DEFAULT_PROPERTIES_NAME : fileName;
-        FileInputStream inputStream = new FileInputStream(
+        InputStreamReader inputStream = new InputStreamReader(
                 PropertyService.class.getClassLoader().getResource(fileNameToRead)
-                        .getFile());
+                        .openStream());
         properties.load(inputStream);
         inputStream.close();
     }

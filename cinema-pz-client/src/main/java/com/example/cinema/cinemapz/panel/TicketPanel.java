@@ -21,7 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import sun.net.ConnectionResetException;
 
 public class TicketPanel extends AbstractPanel {
 

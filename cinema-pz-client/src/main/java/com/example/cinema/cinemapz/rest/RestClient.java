@@ -5,6 +5,7 @@ import com.example.cinema.cinemapz.Main.Frame;
 import com.example.cinema.cinemapz.PropertyService;
 import com.example.cinema.cinemapz.error.RestApiErrorAttributes;
 import com.example.cinema.cinemapz.exception.RestRequestException;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import java.util.List;
 import java.util.function.Function;
 import javax.swing.JOptionPane;
@@ -15,11 +16,18 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
+import org.glassfish.jersey.client.ClientConfig;
 
 public abstract class RestClient {
 
     static final String REST_URI;
-    static final Client client = ClientBuilder.newClient();
+    static final Client client;// = ClientBuilder.newClient();
+
+    static {
+        ClientConfig config = new ClientConfig();
+        config.register(JacksonJsonProvider.class);
+        client = ClientBuilder.newClient(config);
+    }
 
     private static final Logger logger = Logger.getLogger(RestClient.class);
 
@@ -43,6 +51,7 @@ public abstract class RestClient {
             response = webTarget.request(MediaType.APPLICATION_JSON).get(Response.class);
             return serializer.apply(response);
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             showErrorDialog();
             return null;
         }
